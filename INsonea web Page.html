@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INsonea - On s'occupe du bruit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #0B0D1E;
+        color: #E8EAF6;
+      }
+
+      .main-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      /* Noise animation for chaos effect */
+      @keyframes noise {
+        0%, 100% { transform: translate(0, 0); }
+        10% { transform: translate(-2%, -2%); }
+        20% { transform: translate(-3%, 3%); }
+        30% { transform: translate(3%, -1%); }
+        40% { transform: translate(-1%, 2%); }
+        50% { transform: translate(2%, 1%); }
+        60% { transform: translate(1%, -3%); }
+        70% { transform: translate(-2%, 1%); }
+        80% { transform: translate(3%, 2%); }
+        90% { transform: translate(-1%, -2%); }
+      }
+
+      .noise-bg {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .noise-bg::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        left: -10%;
+        right: -10%;
+        bottom: -10%;
+        background-image: 
+          repeating-linear-gradient(90deg, transparent 0, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px),
+          repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px);
+        animation: noise 0.2s infinite;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      /* Wave animations */
+      .wave-container {
+        position: relative;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .wave-bar {
+        width: 4px;
+        border-radius: 2px;
+        background: linear-gradient(180deg, #8B5CF6, #6366F1);
+        transition: all 0.3s ease;
+      }
+
+      @keyframes waveChaosPulse {
+        0%, 100% { height: 20px; }
+        25% { height: 80px; }
+        50% { height: 40px; }
+        75% { height: 100px; }
+      }
+
+      @keyframes waveCalmPulse {
+        0%, 100% { height: 40px; }
+        50% { height: 60px; }
+      }
+
+      .wave-bar:nth-child(1) { animation: waveChaosPulse 1.2s ease-in-out infinite; animation-delay: 0s; }
+      .wave-bar:nth-child(2) { animation: waveChaosPulse 1s ease-in-out infinite; animation-delay: 0.1s; }
+      .wave-bar:nth-child(3) { animation: waveChaosPulse 0.9s ease-in-out infinite; animation-delay: 0.2s; }
+      .wave-bar:nth-child(4) { animation: waveChaosPulse 1.1s ease-in-out infinite; animation-delay: 0.15s; }
+      .wave-bar:nth-child(5) { animation: waveChaosPulse 0.95s ease-in-out infinite; animation-delay: 0.25s; }
+      .wave-bar:nth-child(6) { animation: waveChaosPulse 1.05s ease-in-out infinite; animation-delay: 0.05s; }
+      .wave-bar:nth-child(7) { animation: waveChaosPulse 1.15s ease-in-out infinite; animation-delay: 0.3s; }
+
+      .calm-wave .wave-bar { animation: waveCalmPulse 2s ease-in-out infinite; }
+      .calm-wave .wave-bar:nth-child(1) { animation-delay: 0s; }
+      .calm-wave .wave-bar:nth-child(2) { animation-delay: 0.3s; }
+      .calm-wave .wave-bar:nth-child(3) { animation-delay: 0.6s; }
+      .calm-wave .wave-bar:nth-child(4) { animation-delay: 0.9s; }
+      .calm-wave .wave-bar:nth-child(5) { animation-delay: 1.2s; }
+
+      /* Card hover effects */
+      .impact-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        background-color: rgba(26, 29, 53, 0.8);
+      }
+
+      .impact-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 2px;
+        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .impact-card:hover {
+        transform: translateY(-8px) scale(1.02);
+      }
+
+      .impact-card:hover::before {
+        opacity: 1;
+      }
+
+      /* Floating animation */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Ripple circles */
+      .ripple-circle {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid #8B5CF6;
+        opacity: 0.1;
+      }
+
+      @keyframes ripple {
+        0% { transform: scale(0.8); opacity: 0.2; }
+        50% { opacity: 0.1; }
+        100% { transform: scale(1.2); opacity: 0; }
+      }
+
+      .ripple-circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        animation: ripple 4s ease-out infinite;
+      }
+
+      .ripple-circle:nth-child(2) {
+        width: 450px;
+        height: 450px;
+        animation: ripple 4s ease-out infinite 1s;
+      }
+
+      .ripple-circle:nth-child(3) {
+        width: 600px;
+        height: 600px;
+        animation: ripple 4s ease-out infinite 2s;
+      }
+
+      /* Button glow */
+      .cta-button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        background-color: #6366F1;
+        color: #E8EAF6;
+      }
+
+      .cta-button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .cta-button:hover::after {
+        width: 300px;
+        height: 300px;
+      }
+
+      .cta-button:hover {
+        background-color: #8B5CF6;
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+      }
+
+      .cta-button:active {
+        transform: scale(0.95);
+      }
+
+      /* Stats animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        background-color: rgba(26, 29, 53, 0.5);
+      }
+
+      /* Feature icons animation */
+      @keyframes iconPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+
+      .feature-icon:hover {
+        animation: iconPulse 0.6s ease-in-out;
+      }
+
+      .hero-link {
+        color: #E8EAF6;
+        border-color: rgba(232, 234, 246, 0.2);
+      }
+
+      .hero-link:hover {
+        background-color: rgba(99, 102, 241, 0.2);
+        border-color: #6366F1;
+      }
+
+      .feature-box {
+        background-color: rgba(26, 29, 53, 0.4);
+        backdrop-filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body class="h-full">
+    <div id="app-wrapper" class="main-wrapper">
+      <!-- Hero Section -->
+      <section id="hero" class="noise-bg relative" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 60px 24px; background: linear-gradient(135deg, #0B0D1E 0%, #1A1D35 100%);">
+        <div style="max-width: 1200px; width: 100%; text-align: center; position: relative; z-index: 10;">
+          <!-- Chaotic waves visualization -->
+          <div class="wave-container" style="margin-bottom: 60px;">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <h1 id="hero-title" style="margin-bottom: 24px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-size: 56px;">Tu as assez à gérer.</h1>
+          <p id="hero-subtitle" style="margin-bottom: 60px; font-weight: 300; opacity: 0.9; letter-spacing: 0.02em; font-size: 24px;">Laisse INsonea s'occuper du bruit.</p>
+          <a href="#problem" class="hero-link" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; border-radius: 50px; font-weight: 500; text-decoration: none; transition: all 0.3s ease; border: 1px solid;">
+            <span>Découvre pourquoi</span>
+            <span style="font-size: 20px;">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Problem Section -->
+      <section id="problem" style="padding: 100px 24px; position: relative; background-color: #1A1D35;">
+        <div style="max-width: 1100px; margin: 0 auto;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; align-items: center;">
+            <!-- Text content -->
+            <div>
+              <h2 id="problem-title" style="margin-bottom: 24px; font-weight: 600; line-height: 1.2; font-size: 40px;">Le bruit ne dort jamais</h2>
+              <p id="problem-intro" style="margin-bottom: 40px; opacity: 0.85; line-height: 1.7; font-size: 18px;">Entre les transports, les travaux, les voisins et la vie urbaine, le bruit est partout. Invisible mais constant, il grignote ton énergie, ta concentration et ton bien-être sans que tu t'en rendes compte.</p>
+              <!-- Stats -->
+              <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div class="fade-in-up" style="display: flex; align-items: center; gap: 20px; padding: 20px; border-radius: 16px;">
+                  <div style="font-size: 36px; min-width: 60px; text-align: center;">⚠️</div>
+                  <div>
+                    <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">70%</div>
+                    <div style="font-size: 14px; opacity: 0.7;">des jeunes exposés à des niveaux sonores dangereux</div>
+                  </div>
+                </div>
+                <div class="fade-in-up" style="display: flex; align-items: center; gap: 20px; padding: 20px; border-radius: 16px; animation-delay: 0.2s;">
+                  <div style="font-size: 36px; min-width: 60px; text-align: center;">⏱️</div>
+                  <div>
+                    <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">3h</div>
+                    <div style="font-size: 14px; opacity: 0.7;">de concentration perdues chaque jour à cause du bruit</div>
+                  </div>
+                </div>
+                <div class="fade-in-up" style="display: flex; align-items: center; gap: 20px; padding: 20px; border-radius: 16px; animation-delay: 0.4s;">
+                  <div style="font-size: 36px; min-width: 60px; text-align: center;">🏙️</div>
+                  <div>
+                    <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">24/7</div>
+                    <div style="font-size: 14px; opacity: 0.7;">le bruit urbain ne s'arrête jamais, même la nuit</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Visual: Urban chaos -->
+            <div style="position: relative; height: 500px; display: flex; align-items: center; justify-content: center;">
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <div class="ripple-circle"></div>
+                <div class="ripple-circle"></div>
+                <div class="ripple-circle"></div>
+              </div>
+              <svg width="300" height="300" viewBox="0 0 300 300" style="position: relative; z-index: 5; color: #8B5CF6;">
+                <circle cx="150" cy="150" r="80" fill="currentColor" opacity="0.1" />
+                <path d="M150 90 C120 90, 100 110, 100 140 C100 160, 110 175, 125 180 C120 190, 125 200, 135 205 C135 220, 145 230, 160 230 C170 230, 178 225, 182 218 C192 220, 200 215, 200 205 C210 200, 215 190, 213 180 C225 175, 230 165, 230 150 C230 120, 210 95, 180 90 C170 85, 160 85, 150 90 Z" fill="currentColor" opacity="0.3" />
+                <path d="M 80 150 Q 70 130, 60 150 T 40 150" stroke="currentColor" fill="none" stroke-width="2" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2s" repeatCount="indefinite" />
+                </path>
+                <path d="M 220 150 Q 230 130, 240 150 T 260 150" stroke="currentColor" fill="none" stroke-width="2" opacity="0.4">
+                  <animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite" />
+                </path>
+                <path d="M 150 80 Q 130 70, 150 60 T 150 40" stroke="currentColor" fill="none" stroke-width="2" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite" />
+                </path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Impact Section -->
+      <section id="impact" style="padding: 100px 24px; position: relative; background: linear-gradient(180deg, #1A1D35 0%, #0B0D1E 100%);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+          <h2 id="impact-title" style="text-align: center; margin-bottom: 80px; font-weight: 600; line-height: 1.2; font-size: 40px;">Ce que le bruit te vole</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+            <!-- Card 1: Concentration -->
+            <div class="impact-card" style="padding: 48px 32px; border-radius: 24px; text-align: center;">
+              <div class="feature-icon" style="font-size: 64px; margin-bottom: 24px; display: inline-block;">🎯</div>
+              <h3 id="impact-card1-title" style="margin-bottom: 16px; font-weight: 600; font-size: 24px;">Ta concentration</h3>
+              <p id="impact-card1-text" style="opacity: 0.8; line-height: 1.6;">Impossible de te plonger dans tes révisions ou ton travail. Le bruit casse ton flow et te force à recommencer encore et encore.</p>
+            </div>
+            <!-- Card 2: Sommeil -->
+            <div class="impact-card" style="padding: 48px 32px; border-radius: 24px; text-align: center;">
+              <div class="feature-icon" style="font-size: 64px; margin-bottom: 24px; display: inline-block;">🌙</div>
+              <h3 id="impact-card2-title" style="margin-bottom: 16px; font-weight: 600; font-size: 24px;">Tes nuits</h3>
+              <p id="impact-card2-text" style="opacity: 0.8; line-height: 1.6;">Même la nuit, le bruit s'infiltre. Sommeil fragmenté, réveils nocturnes, fatigue chronique. Ton corps ne récupère jamais vraiment.</p>
+            </div>
+            <!-- Card 3: Mental -->
+            <div class="impact-card" style="padding: 48px 32px; border-radius: 24px; text-align: center;">
+              <div class="feature-icon" style="font-size: 64px; margin-bottom: 24px; display: inline-block;">🧘</div>
+              <h3 id="impact-card3-title" style="margin-bottom: 16px; font-weight: 600; font-size: 24px;">Ta paix mentale</h3>
+              <p id="impact-card3-text" style="opacity: 0.8; line-height: 1.6;">Cette tension constante qui monte, cette irritabilité latente. Le bruit crée un stress que tu ne sais même plus nommer.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- App Solution Section -->
+      <section id="app" style="padding: 120px 24px; position: relative; min-height: 100vh; background: radial-gradient(circle at center, #1A1D35 0%, #0B0D1E 100%);">
+        <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+          <!-- Calm waves visualization -->
+          <div class="wave-container calm-wave floating" style="margin-bottom: 60px;">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <h2 id="app-title" style="margin-bottom: 32px; font-weight: 600; line-height: 1.2; font-size: 40px;">Objectif d'INsonea</h2>
+          <p id="app-description" style="margin-bottom: 60px; opacity: 0.85; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 18px;">Plus besoin de gérer ça tout seul. INsonea surveille l'environnement sonore, t'alerte quand c'est nécessaire, et te guide vers le calme. Simple, discret, efficace.</p>
+          <!-- Features grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin-bottom: 60px;">
+            <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
+              <div style="font-size: 48px; margin-bottom: 16px;">📍</div>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Cartographie sonore</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Trouve des zones calmes autour de toi en temps réel</p>
+            </div>
+            <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
+              <div style="font-size: 48px; margin-bottom: 16px;">🔔</div>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Alertes intelligentes</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Reçois des notifications quand c'est trop bruyant</p>
+            </div>
+            <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
+              <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Suivi personnel</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Analyse ton exposition quotidienne au bruit</p>
+            </div>
+          </div>
+          <!-- CTA Button -->
+          <a href="https://samy-asl.github.io/Insonea-APP/" target="_blank" id="cta-button" class="cta-button" style="padding: 20px 60px; border-radius: 50px; border: none; font-weight: 600; font-size: 18px; cursor: pointer; font-family: inherit; position: relative; z-index: 1; text-decoration: none; display: inline-block;">Télécharger INsonea</a>
+          <p style="margin-top: 24px; font-size: 13px; opacity: 0.6;">Disponible sur iOS et Android</p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer style="padding: 40px 24px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); background-color: #0B0D1E;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+          <div style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">INsonea</div>
+          <p style="font-size: 14px; opacity: 0.6; margin-bottom: 24px;">Parce que le silence est un droit, pas un luxe.</p>
+          <div style="display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; font-size: 13px; opacity: 0.5;">
+            <span>© 2025 INsonea</span>
+            <span>·</span>
+            <a href="#" style="text-decoration: none; color: inherit; transition: opacity 0.3s;">Confidentialité</a>
+            <span>·</span>
+            <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+              <span>Contact:</span>
+              <span>Mail: samy.25.asl@gmail.com</span>
+              <span>GitHub: Samy-Asl</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
