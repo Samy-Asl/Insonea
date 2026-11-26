@@ -282,10 +282,10 @@
           </div>
           <h1 id="hero-title" style="margin-bottom: 24px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-size: 56px;">Tu as assez à gérer.</h1>
           <p id="hero-subtitle" style="margin-bottom: 60px; font-weight: 300; opacity: 0.9; letter-spacing: 0.02em; font-size: 24px;">Laisse INsonea s'occuper du bruit.</p>
-          <a href="#problem" class="hero-link" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; border-radius: 50px; font-weight: 500; text-decoration: none; transition: all 0.3s ease; border: 1px solid;">
-            <span>Découvre pourquoi</span>
-            <span style="font-size: 20px;">↓</span>
-          </a>
+          <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
+            <a href="https://samy-asl.github.io/Insonea-APP/" class="cta-button" style="display: inline-flex; align-items: center; padding: 16px 32px; border-radius: 50px; font-weight: 600; text-decoration: none;">Ouvrir l’app</a>
+            <a href="#problem" class="hero-link" style="display: inline-flex; align-items: center; padding: 16px 32px; border-radius: 50px; font-weight: 500; text-decoration: none; transition: all 0.3s ease; border: 1px solid;">Découvre pourquoi</a>
+          </div>
         </div>
       </section>
 
@@ -386,29 +386,28 @@
             <div class="wave-bar"></div>
           </div>
           <h2 id="app-title" style="margin-bottom: 32px; font-weight: 600; line-height: 1.2; font-size: 40px;">Objectif d'INsonea</h2>
-          <p id="app-description" style="margin-bottom: 60px; opacity: 0.85; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 18px;">Plus besoin de gérer ça tout seul. INsonea surveille l'environnement sonore, t'alerte quand c'est nécessaire, et te guide vers le calme. Simple, discret, efficace.</p>
+          <p id="app-description" style="margin-bottom: 60px; opacity: 0.85; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 18px;">Lance une session pour estimer le niveau sonore autour de toi, repérer les dépassements de seuil et consulter le bilan à la fin.</p>
           <!-- Features grid -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin-bottom: 60px;">
             <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
               <div style="font-size: 48px; margin-bottom: 16px;">📍</div>
-              <h4 style="margin-bottom: 12px; font-weight: 600;">Cartographie sonore</h4>
-              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Trouve des zones calmes autour de toi en temps réel</p>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Estimation en direct</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Observe les variations du bruit à partir du micro de ton appareil.</p>
             </div>
             <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
               <div style="font-size: 48px; margin-bottom: 16px;">🔔</div>
-              <h4 style="margin-bottom: 12px; font-weight: 600;">Alertes intelligentes</h4>
-              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Reçois des notifications quand c'est trop bruyant</p>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Alertes par seuil</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Repère les dépassements des seuils que tu règles dans l’app.</p>
             </div>
             <div class="feature-box" style="padding: 32px 24px; border-radius: 20px;">
               <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
-              <h4 style="margin-bottom: 12px; font-weight: 600;">Suivi personnel</h4>
-              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Analyse ton exposition quotidienne au bruit</p>
+              <h4 style="margin-bottom: 12px; font-weight: 600;">Bilan de session</h4>
+              <p style="font-size: 14px; opacity: 0.75; line-height: 1.5;">Retrouve le pic, la moyenne et le temps passé au-dessus du seuil d’alerte.</p>
             </div>
           </div>
           <!-- CTA Button -->
-          <a href="https://samy-asl.github.io/Insonea-APP/" target="_blank" id="cta-button" class="cta-button" style="padding: 20px 60px; border-radius: 50px; border: none; font-weight: 600; font-size: 18px; cursor: pointer; font-family: inherit; position: relative; z-index: 1; text-decoration: none; display: inline-block;">Télécharger INsonea</a>
-          <p style="margin-top: 24px; font-size: 13px; opacity: 0.6;">Disponible sur iOS et Android</p>
-          <p style="margin-top: 12px; font-size: 14px; opacity: 0.7;">Sur IPhone : ouvrez ce site dans<strong> Safari</strong>, puis<strong> Partager -> Ajouter à l'écran dacceuil</strong></p>
+          <a href="https://samy-asl.github.io/Insonea-APP/" id="cta-button" class="cta-button" style="padding: 20px 60px; border-radius: 50px; border: none; font-weight: 600; font-size: 18px; cursor: pointer; font-family: inherit; position: relative; z-index: 1; text-decoration: none; display: inline-block;">Ouvrir l’app</a>
+          <p id="micro" style="margin-top: 24px; font-size: 14px; opacity: 0.75;">L’app demande l’accès au micro quand tu démarres une session. Elle traite le son dans ton navigateur.</p>
         </div>
       </section>
 
@@ -420,7 +419,7 @@
           <div style="display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; font-size: 13px; opacity: 0.5;">
             <span>© 2025 INsonea</span>
             <span>·</span>
-            <a href="#" style="text-decoration: none; color: inherit; transition: opacity 0.3s;">Confidentialité</a>
+            <a href="#micro" style="text-decoration: none; color: inherit; transition: opacity 0.3s;">Utilisation du micro</a>
             <span>·</span>
             <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
               <span>Contact:</span>
